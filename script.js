@@ -347,11 +347,17 @@ async function loadBookings() {
     let email = localStorage.getItem("email");
 
     let bookingList =
-        document.getElementById("bookingList");
+            document.getElementById("bookingList");
 
-    if (!bookingList || !email) {
-        return;
-    }
+ if (!bookingList) {
+    return;
+ }
+
+ if (!email) {
+    bookingList.innerHTML =
+        '<p>Please login to view your bookings.</p>';
+    return;
+ }
 
     try {
 
@@ -738,16 +744,22 @@ if (bookingForm) {
 
                 if (response.ok) {
 
-                    alert(
-                        "Booking confirmed successfully!"
-                    );
+                alert("Booking confirmed successfully!");
 
-                    bookingForm.reset();
+                 bookingForm.reset();
 
-                    selectedRoom = "";
-                    selectedPrice = 0;
+                 selectedRoom = "";
+                 selectedPrice = 0;
 
-                }
+                 document.getElementById("roomDetails").innerText =
+                     "Select a room to continue.";
+
+                 document.getElementById("bill").innerText =
+                    "Total will appear here.";
+
+                 loadBookings();
+
+                 }
                 else {
 
                     alert(data.message);
