@@ -2,6 +2,51 @@ let selectedRoom = "";
 let selectedPrice = 0;
 
 
+/* ===============================
+   LOGIN NAVIGATION AND LOGOUT
+=============================== */
+
+function updateNavigation() {
+    let username = localStorage.getItem("username");
+
+    let authLink = document.getElementById("authLink");
+    let userLink = document.getElementById("userLink");
+    let navUsername = document.getElementById("navUsername");
+    let logoutBtn = document.getElementById("logoutBtn");
+
+    if (!authLink || !userLink || !navUsername || !logoutBtn) {
+        return;
+    }
+
+    if (username) {
+        authLink.style.display = "none";
+        userLink.style.display = "inline";
+        logoutBtn.style.display = "inline-block";
+        navUsername.textContent = username;
+    } else {
+        authLink.style.display = "inline";
+        userLink.style.display = "none";
+        logoutBtn.style.display = "none";
+        navUsername.textContent = "";
+    }
+}
+
+function logout() {
+    if (!confirm("Are you sure you want to logout?")) {
+        return;
+    }
+
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
+
+    alert("Logged out successfully!");
+
+    window.location.href = "index.html";
+}
+
+updateNavigation();
+
+
 // ===============================
 // ROOM SELECTION
 // ===============================
@@ -73,6 +118,34 @@ function calculateBill() {
 
 let checkIn = document.getElementById("checkIn");
 let checkOut = document.getElementById("checkOut");
+
+let today = new Date();
+let todayString =
+    today.getFullYear() + "-" +
+    String(today.getMonth() + 1).padStart(2, "0") + "-" +
+    String(today.getDate()).padStart(2, "0");
+
+if (checkIn) {
+    checkIn.min = todayString;
+}
+
+if (checkOut) {
+    checkOut.min = checkIn?.value || todayString;
+}
+
+if (checkIn && checkOut) {
+    checkIn.addEventListener("change", function () {
+        checkOut.min = checkIn.value || todayString;
+
+        if (checkOut.value && checkOut.value <= checkIn.value) {
+            checkOut.value = "";
+        }
+
+        calculateBill();
+    });
+
+    checkOut.addEventListener("change", calculateBill);
+}
 
 if (checkIn) {
     checkIn.addEventListener("change", calculateBill);

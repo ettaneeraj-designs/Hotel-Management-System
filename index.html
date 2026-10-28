@@ -20,14 +20,24 @@
             <h1>Hotel NSP</h1>
         </div>
 
-       <nav>
-     <a href="#">Home</a>
-     <a href="#rooms">Rooms</a>
-     <a href="#booking">Booking</a>
-     <a href="#myBookings">My Bookings</a>
-     <a href="#profile">Profile</a>
-     <a href="signup.html">Login / Sign Up</a>
-        </nav>  
+     <nav>
+        <a href="#">Home</a>
+        <a href="#rooms">Rooms</a>
+        <a href="#booking">Booking</a>
+        <a href="#myBookings">My Bookings</a>
+        <a href="#profile">Profile</a>
+        <a href="signup.html" id="authLink">Login / Sign Up</a>
+        <a href="#profile" id="userLink" style="display: none;">
+        👤 <span id="navUsername"></span>
+        </a>
+        <button
+        type="button"
+        id="logoutBtn"
+        onclick="logout()"
+        style="display: none;">
+        Logout
+        </button>
+     </nav>
     </header>
 
     <!-- Hero Section -->
